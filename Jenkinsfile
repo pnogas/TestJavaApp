@@ -4,9 +4,6 @@ pipeline {
             label 'master'
         }
     }
-    environment {
-        env.PATH = env.PATH + ";c:\\Windows\\System32"
-    }
 
     options {
         buildDiscarder logRotator(
@@ -27,6 +24,8 @@ pipeline {
         }
         stage('Code Analysis') {
             steps {
+                echo '%Path%'
+                echo '$Path'
                 script {
                     bat 'gradlew sonarqube'
                 }
