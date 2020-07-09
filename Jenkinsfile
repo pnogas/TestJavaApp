@@ -4,6 +4,9 @@ pipeline {
             label 'master'
         }
     }
+    environment {
+        env.PATH = env.PATH + ";c:\\Windows\\System32"
+    }
 
     options {
         buildDiscarder logRotator(
