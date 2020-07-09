@@ -24,7 +24,9 @@ pipeline {
         }
         stage('Code Analysis') {
             steps {
-                bat 'gradlew sonarqube'
+                script {
+                    bat 'gradlew sonarqube'
+                }
             }
         }
     }
