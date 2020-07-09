@@ -24,8 +24,7 @@ pipeline {
         }
         stage('Code Analysis') {
             steps {
-                echo '%Path%'
-                echo '$Path'
+                echo 'Path=' + env.PATH
                 script {
                     bat 'gradlew sonarqube'
                 }
