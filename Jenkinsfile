@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
     stages {
         stage('Code Checkout') {
             steps {
@@ -11,10 +11,10 @@ pipeline {
             }
         }
         stage('Start Code Analysis') {
-            withSonarQubeEnv('My SonarQube Server') {
-                steps {
+            steps {
+                withSonarQubeEnv('My SonarQube Server') {
                     bat 'gradlew.bat sonarqube'
-                 }
+                }
             }
         }
         stage("Await Code Analysis Result") {
