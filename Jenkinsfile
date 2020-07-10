@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Start Code Analysis') {
             steps {
-                withSonarQubeEnv('My SonarQube Server') {
+                withSonarQubeEnv('PaulSonarQube') {
                     bat 'gradlew.bat sonarqube'
                 }
             }
