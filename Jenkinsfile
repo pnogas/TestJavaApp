@@ -1,30 +1,27 @@
 pipeline {
-    agent {
-        node {
-            label 'master'
-        }
-    }
-
-    options {
-        buildDiscarder logRotator(
-                    daysToKeepStr: '7',
-                    numToKeepStr: '10'
-            )
-    }
-
+    agent none
     stages {
         stage('Code Checkout') {
             steps {
                 checkout([
                     $class: 'GitSCM',
-                    branches: [[name: '*/main']],
+                    branches: [[name: env.BRANCH_NAME]],
                     userRemoteConfigs: [[url: 'https://github.com/pnogas/TestJavaApp.git']]
                 ])
             }
         }
-        stage('Code Analysis') {
+        stage('Start Code Analysis') {
+            withSonarQubeEnv('My SonarQube Server') {
+                steps {
+                    bat 'gradlew.bat sonarqube'
+                 }
+            }
+        }
+        stage("Await Code Analysis Result") {
             steps {
-                bat 'gradlew sonarqube'
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
     }
